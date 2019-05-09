@@ -42,6 +42,7 @@ int* create_lcg(int step,int increement,int modulo,int seed)
      }
     void display(int*); 
     float mean=49.5;
+   //float mean=big+small/2;
     
     for(i=0;i<1000;i++)
      { if(p[i]>=mean)
@@ -49,7 +50,7 @@ int* create_lcg(int step,int increement,int modulo,int seed)
        else
         run_copy[i]=0;
      }
-    display(run_copy);
+    display(p);
     int count=1,n1=0,n2=0;
     for(i=0;i<1000;i++)
       if(run_copy[i]!=run_copy[i+1])
