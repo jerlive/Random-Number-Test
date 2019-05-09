@@ -1,11 +1,16 @@
+/******************************************************************************
 
+         Coded by Jerin Mathew Vithayathil, TVE16IE036
+         https://github.com/jerlive/Random-Number-Test/edit/master/main.cpp
+
+*******************************************************************************/
 
 #include <iostream>
 #include<bits/stdc++.h>
 #include<curses.h>
 
 using namespace std;
-
+int i;
 
 int* create_lcg(int step,int increement,int modulo,int seed)
  { int randomno=seed;
@@ -19,27 +24,32 @@ int* create_lcg(int step,int increement,int modulo,int seed)
    return random;
  }
  
- void display(int* array)
-  {  cout<<"\nThe Array is :\n";
-     for(int j=0;j<1000;j++)
-       cout<<array[j]<<",";
-  }
+ 
   
  void runs_1(int* p)
   { int sum=0; int run_copy[1000]={};
     int run_below[1000]={};
+    int big=p[0],small=p[0];
     
     for(i=0;i<1000;i++)
-     { sum+=p[i];
-       run_copy[i]=p[i];
+     { if(p[i]>=big)
+        big=p[i];
      }
-    int mean=sum/1000;
+     
     for(i=0;i<1000;i++)
-     { if(run_copy[i]>=mean)
+     { if(p[i]<=small)
+        small=p[i];
+     }
+    void display(int*); 
+    float mean=49.5;
+    
+    for(i=0;i<1000;i++)
+     { if(p[i]>=mean)
         run_copy[i]=1;
        else
         run_copy[i]=0;
      }
+    display(run_copy);
     int count=1,n1=0,n2=0;
     for(i=0;i<1000;i++)
       if(run_copy[i]!=run_copy[i+1])
@@ -51,26 +61,33 @@ int* create_lcg(int step,int increement,int modulo,int seed)
         n2++;
       } 
       
-    int nu;
-    int sigmasq;
-    int zcalc,ztheory
+    float nu;
+    long int sigmasq;
+    float zcalc,ztheory;
     int accuracy=5;
     ztheory=1.96;
-    nu=(2*n1*n2/1000)+0.5;
-    sigmasq=(2*n1*n2*((2*n1*n2)-1000))/(1000000*999);
+    nu=(2*n1*n2/1000)+0.5;long int temp=2*n1*n2,temp2=1000000/999;
+    sigmasq=(temp*(temp-1000))/temp2;
     zcalc=(count-nu)/sigmasq;
-    
-    cout<<"\n"<<nu<<","<<sigmasq<<","<<zcalc<<",";
+    cout<<"\n\n RESULTS :";
+    cout<<"\n Observed Mean : "<<nu<<"\n Observed Variance : "<<sigmasq<<"\n Calculated Z-Score : "<<zcalc<<"\n Above the Mean : "<<n1<<"\n Below the Mean : "<<n2<<"\n Number of Runs : "<<count<<".";
     if(zcalc<ztheory)
-     cout<<"\n Null Hypothesis is Accepted";
+     cout<<"\n Null Hypothesis for Runs Test is Accepted";
     else
-     cout<<"\n Null Hypothesis is Rejected";
+     cout<<"\n Null Hypothesis for Runs Test is Rejected";
     
+  }
+  
+void display(int* array)
+  {  cout<<"\nThe Array is :\n";
+     for(int j=0;j<1000;j++)
+       cout<<array[j]<<",";
+     
   }
  
 int main()
 {
-    display(create_lcg(13,34,6,67));
+    runs_1(create_lcg(13,34,6,67));
     return 0;
 }
 
